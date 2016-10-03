@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using System.Web.OData.Builder;
+using System.Web.OData.Extensions;
+using Microsoft.OData.Edm;
+using ODataService.Models;
 
 namespace ODataService.Api
 {
@@ -9,16 +10,23 @@ namespace ODataService.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            config.MapODataServiceRoute(
+                "ODataRoute",
+                "odata",
+                GetEdmModel());
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+            config.EnsureInitialized();
+        }
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+        private static IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.Namespace = "AirVinyl";
+            builder.ContainerName = "AirVinylContainer";
+
+            builder.EntitySet<Country>("Countries");
+
+            return builder.GetEdmModel();
         }
     }
 }
