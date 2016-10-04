@@ -51,7 +51,7 @@ namespace ODataService.DataAccess
                     FirstName = "Deven",
                     LastName = "Shah",
                     DateOfBirth = DateTime.Parse("1974-04-20"),
-                    Gender = "Male"
+                    Gender = Gender.Male
                 },
                 new Person
                 {
@@ -59,7 +59,7 @@ namespace ODataService.DataAccess
                     FirstName = "Suma",
                     LastName = "Shah",
                     DateOfBirth = DateTime.Parse("1973-11-16"),
-                    Gender = "Female"
+                    Gender = Gender.Female
                 },
                 new Person
                 {
@@ -67,7 +67,7 @@ namespace ODataService.DataAccess
                     FirstName = "Diya",
                     LastName = "Shah",
                     DateOfBirth = DateTime.Parse("2004-11-23"),
-                    Gender = "Female"
+                    Gender = Gender.Female
                 },
                 new Person
                 {
@@ -75,7 +75,7 @@ namespace ODataService.DataAccess
                     FirstName = "Minal",
                     LastName = "Chavan",
                     DateOfBirth = DateTime.Parse("1971-08-23"),
-                    Gender = "Female"
+                    Gender = Gender.Female
                 },
                 new Person
                 {
@@ -83,7 +83,7 @@ namespace ODataService.DataAccess
                     FirstName = "Jay",
                     LastName = "Chavan",
                     DateOfBirth = DateTime.Parse("1993-05-22"),
-                    Gender = "Male"
+                    Gender = Gender.Male
                 }
             };
 

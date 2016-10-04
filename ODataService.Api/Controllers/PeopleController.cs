@@ -9,24 +9,20 @@ using ODataService.Models;
 
 namespace ODataService.Api.Controllers
 {
-    public class PersonController : ODataController
+    public class PeopleController : ODataController
     {
         private readonly ODataServiceContext _ctx;
 
-        public PersonController()
+        public PeopleController()
         {
             _ctx = new ODataServiceContext ();
         }
 
-        [HttpGet]
-        [ODataRoute("People")]
         public IHttpActionResult Get()
         {
             return Ok(_ctx.People);
         }
 
-        [HttpGet]
-        [ODataRoute("People({key})")]
         public IHttpActionResult Get(int key)
         {
             var person = _ctx.People.FirstOrDefault(p => p.Id == key);
@@ -57,8 +53,6 @@ namespace ODataService.Api.Controllers
             return this.CreateOKHttpActionResult(propertyValue);
         }
 
-        [HttpPost]
-        [ODataRoute("People")]
         public IHttpActionResult Post(Person person)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -66,7 +60,54 @@ namespace ODataService.Api.Controllers
             person.Id = id + 1;
             _ctx.People.Add(person);
             _ctx.SaveChanges();
-            return Ok(person);
+            return Created(person);
+        }
+
+        public IHttpActionResult Put([FromODataUri]int key, Person personToUpdate)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (key != personToUpdate.Id)
+            {
+                ModelState.AddModelError("Key", "Invalid identifiers");
+                return BadRequest(ModelState);
+            }
+
+            var person = _ctx.People.FirstOrDefault(p => p.Id == key);
+            if (person == null) return BadRequest();
+
+            _ctx.Entry(person).CurrentValues.SetValues(personToUpdate);
+            _ctx.SaveChanges();
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        public IHttpActionResult Patch([FromODataUri] int key, Delta<Person> patch)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var currentPerson = _ctx.People.FirstOrDefault(p => p.Id == key);
+
+            if (currentPerson == null) return NotFound();
+            
+            patch.Patch(currentPerson);
+            _ctx.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        public IHttpActionResult Delete([FromODataUri] int key)
+        {
+            var currentPerson = _ctx.People.FirstOrDefault(p => p.Id == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            _ctx.People.Remove(currentPerson);
+            _ctx.SaveChanges();
+
+            // return No Content
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
