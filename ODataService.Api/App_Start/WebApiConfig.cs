@@ -25,6 +25,7 @@ namespace ODataService.Api
             builder.ContainerName = "AirVinylContainer";
 
             builder.EntitySet<Country>("Countries");
+            builder.EntitySet<Person>("People");
 
             return builder.GetEdmModel();
         }

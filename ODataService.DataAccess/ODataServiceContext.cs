@@ -12,5 +12,7 @@ namespace ODataService.DataAccess
         }
 
         public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Person> People { get; set; }
     }
 }
