@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ODataService.Models
 {
@@ -8,6 +9,8 @@ namespace ODataService.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Gender Gender { get; set; }
+
+        public ICollection<Person> Family { get; set; }
     }
 
     public enum Gender

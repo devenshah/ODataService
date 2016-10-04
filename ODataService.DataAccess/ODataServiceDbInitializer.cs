@@ -43,51 +43,54 @@ namespace ODataService.DataAccess
 
         void SeedPersonData(ODataServiceContext context)
         {
-            var list = new List<Person>
+            var personDeven = new Person
             {
-                new Person
-                {
-                    Id = 1,
-                    FirstName = "Deven",
-                    LastName = "Shah",
-                    DateOfBirth = DateTime.Parse("1974-04-20"),
-                    Gender = Gender.Male
-                },
-                new Person
-                {
-                    Id = 1,
-                    FirstName = "Suma",
-                    LastName = "Shah",
-                    DateOfBirth = DateTime.Parse("1973-11-16"),
-                    Gender = Gender.Female
-                },
-                new Person
-                {
-                    Id = 1,
-                    FirstName = "Diya",
-                    LastName = "Shah",
-                    DateOfBirth = DateTime.Parse("2004-11-23"),
-                    Gender = Gender.Female
-                },
-                new Person
-                {
-                    Id = 1,
-                    FirstName = "Minal",
-                    LastName = "Chavan",
-                    DateOfBirth = DateTime.Parse("1971-08-23"),
-                    Gender = Gender.Female
-                },
-                new Person
-                {
-                    Id = 1,
-                    FirstName = "Jay",
-                    LastName = "Chavan",
-                    DateOfBirth = DateTime.Parse("1993-05-22"),
-                    Gender = Gender.Male
-                }
+                Id = 1,
+                FirstName = "Deven",
+                LastName = "Shah",
+                DateOfBirth = DateTime.Parse("1974-04-20"),
+                Gender = Gender.Male
+            };
+            var personSuman = new Person
+            {
+                Id = 1,
+                FirstName = "Suman",
+                LastName = "Shah",
+                DateOfBirth = DateTime.Parse("1973-11-16"),
+                Gender = Gender.Female
+            };
+            var personDiya = new Person
+            {
+                Id = 1,
+                FirstName = "Diya",
+                LastName = "Shah",
+                DateOfBirth = DateTime.Parse("2004-11-23"),
+                Gender = Gender.Female
+            };
+            var personMinal = new Person
+            {
+                Id = 1,
+                FirstName = "Minal",
+                LastName = "Chavan",
+                DateOfBirth = DateTime.Parse("1971-08-23"),
+                Gender = Gender.Female
+            };
+            var personJay = new Person
+            {
+                Id = 1,
+                FirstName = "Jay",
+                LastName = "Chavan",
+                DateOfBirth = DateTime.Parse("1993-05-22"),
+                Gender = Gender.Male
             };
 
-            context.People.AddRange(list);
+            personDeven.Family = new List<Person> { personDiya, personSuman };
+
+            context.People.Add(personDeven);
+            context.People.Add(personSuman);
+            context.People.Add(personDiya);
+            context.People.Add(personMinal);
+            context.People.Add(personJay);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace ODataService.Api.Controllers
             _ctx = new ODataServiceContext ();
         }
 
+        [EnableQuery]
         public IHttpActionResult Get()
         {
             return Ok(_ctx.People);
@@ -51,6 +52,30 @@ namespace ODataService.Api.Controllers
             if (propertyValue == null) return StatusCode(HttpStatusCode.NoContent);
 
             return this.CreateOKHttpActionResult(propertyValue);
+        }
+
+        [HttpGet]
+        [ODataRoute("People({key})/Family")]
+        public IHttpActionResult GetPersonCollectionProperty([FromODataUri] int key)
+        {
+            var collectionPropertyToGet = Url.Request.RequestUri.Segments.Last();
+            var person = _ctx.People.Include(collectionPropertyToGet)
+                .FirstOrDefault(p => p.Id == key);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            if (!person.HasProperty(collectionPropertyToGet))
+            {
+                return NotFound();
+            }
+
+            var collectionPropertyValue = person.GetValue(collectionPropertyToGet);
+
+            // return the collection
+            return this.CreateOKHttpActionResult(collectionPropertyValue);
         }
 
         public IHttpActionResult Post(Person person)
